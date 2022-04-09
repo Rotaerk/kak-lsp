@@ -1,13 +1,24 @@
 ## Unreleased
 
+Deprecations:
+- `rust-analyzer-inlay-hints` is deprecated in favor of `lsp-experimental-inlay-hints-enable` (#602).
+
 Additions:
-- Support the new `textDocument/inlayHint` request from LSP v3.17, and the same protocol with the `experimental/inlayHints` request currently used by rust-analyzer.
+- Support the new `textDocument/inlayHint` request from LSP v3.17, and the same protocol with the `experimental/inlayHints` request currently used by `rust-analyzer` (#602).
+- New command `lsp-inlay-hints-enable` simplifies inlay hints configuration (#602).
+
+Fixes:
+- `lsp-formatting` with `pylsp` now preserves cursor positions again (regressed in 12.1.0).
+- The default config for typescript-language-server now supports TSX files (#211).
+- `texlab-forward-search`'s SyncTeX inverse search now works in more scenarios (#603).
+- `lsp-object` (`]a` etc.) can now jump past the symbols sent by `pylsp`.
+- Inlay diagnostics are now disabled while in insert mode, to avoid diagnotsics jumping around while typing (#605).
 
 ## 12.1.0 - 2022-03-28
 
 Additions:
 - New mappings for Kakoune's object mode allow to select adjacent/surrounding symbols like functions or types (#598).
-- New user mode mapping `<c-o>` spawns a menu to jump to buffer symbol (#584).
+- New mapping for the `lsp` user mode, `<c-o>`, spawns a menu to jump to buffer symbol (#584).
 - `lsp-formatting` used to spawn several shell processes for each modification, which caused noticable delays when formatting many lines. This has been remedied by avoiding shell calls (88f52f0c).
 - kak-lsp is now compatible with the proposed changes to P and <a-x> (see Kakoune's `breaking-cleanups` branch).
 - The documentation now communicates that kak-lsp appends to the global modeline at load time (eb54d378).
