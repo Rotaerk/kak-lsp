@@ -1175,22 +1175,6 @@ buf_line_count = ${kak_buf_line_count}
 " | eval "${kak_opt_lsp_cmd} --request") > /dev/null 2>&1 < /dev/null & }
 }
 
-define-command -hidden lsp-experimental-inlay-hints -docstring "lsp-experimental-inlay-hints: Request inlay hints with experimental prefix" %{
-  lsp-did-change-and-then lsp-experimental-inlay-hints-request
-}
-
-define-command -hidden lsp-experimental-inlay-hints-request %{
-    nop %sh{ (printf %s "
-session  = \"${kak_session}\"
-buffile  = \"${kak_buffile}\"
-filetype = \"${kak_opt_filetype}\"
-version  = ${kak_timestamp:-0}
-method   = \"experimental/inlayHints\"
-[params]
-buf_line_count = ${kak_buf_line_count}
-" | eval "${kak_opt_lsp_cmd} --request") > /dev/null 2>&1 < /dev/null & }
-}
-
 # CCLS Extension
 
 define-command ccls-navigate -docstring "Navigate C/C++/ObjectiveC file" -params 1 %{
@@ -1344,15 +1328,6 @@ version  = ${kak_timestamp:-0}
 method   = \"eclipse.jdt.ls/organizeImports\"
 [params]
 " | eval "${kak_opt_lsp_cmd} --request") > /dev/null 2>&1 < /dev/null & }
-}
-
-# rust-analyzer extensions
-
-define-command -hidden rust-analyzer-inlay-hints -docstring "rust-analyzer-inlay-hints: request inlay hints (rust-analyzer).
-
-Deprecated: Delegates to lsp-experimental-inlay-hints. Once rust-analyzer switches to the official 
-textDocument/inlayHints request, this will be removed." %{
-    lsp-experimental-inlay-hints
 }
 
 # texlab extensions
