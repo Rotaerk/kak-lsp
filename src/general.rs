@@ -79,7 +79,9 @@ pub fn initialize(root_path: &str, meta: EditorMeta, ctx: &mut Context) {
                 workspace_folders: Some(false),
                 configuration: Some(true),
                 semantic_tokens: None,
-                code_lens: None,
+                code_lens: Some(CodeLensWorkspaceClientCapabilities {
+                    refresh_support: None,
+                }),
                 file_operations: None,
                 inlay_hint: Some(InlayHintWorkspaceClientCapabilities {
                     refresh_support: Some(false),

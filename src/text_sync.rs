@@ -1,4 +1,5 @@
 use crate::context::*;
+use crate::language_features::code_lens::text_document_code_lens;
 use crate::types::*;
 use lsp_types::notification::*;
 use lsp_types::*;
@@ -22,12 +23,13 @@ pub fn text_document_did_open(meta: EditorMeta, params: EditorParams, ctx: &mut 
         version: meta.version,
         text: Rope::from_str(&params.text_document.text),
     };
-    ctx.documents.insert(meta.buffile, document);
+    ctx.documents.insert(meta.buffile.clone(), document);
     ctx.notify::<DidOpenTextDocument>(params);
+    text_document_code_lens(meta, ctx);
 }
 
 pub fn text_document_did_change(meta: EditorMeta, params: EditorParams, ctx: &mut Context) {
-    let params = TextDocumentDidChangeParams::deserialize(params)
+    let did_change_params = TextDocumentDidChangeParams::deserialize(params)
         .expect("Params should follow TextDocumentDidChangeParams structure");
     let uri = Url::from_file_path(&meta.buffile).unwrap();
     let version = meta.version;
@@ -41,7 +43,7 @@ pub fn text_document_did_change(meta: EditorMeta, params: EditorParams, ctx: &mu
     }
     let document = Document {
         version,
-        text: Rope::from_str(&params.draft),
+        text: Rope::from_str(&did_change_params.draft),
     };
     ctx.documents.insert(meta.buffile.clone(), document);
     ctx.diagnostics.insert(meta.buffile.clone(), Vec::new());
@@ -53,10 +55,11 @@ pub fn text_document_did_change(meta: EditorMeta, params: EditorParams, ctx: &mu
         content_changes: vec![TextDocumentContentChangeEvent {
             range: None,
             range_length: None,
-            text: params.draft,
+            text: did_change_params.draft,
         }],
     };
     ctx.notify::<DidChangeTextDocument>(params);
+    text_document_code_lens(meta, ctx);
 }
 
 pub fn text_document_did_close(meta: EditorMeta, ctx: &mut Context) {
