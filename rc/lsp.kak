@@ -90,7 +90,7 @@ declare-option -docstring "Character to signal an error in the gutter" str lsp_d
 declare-option -docstring "Character to signal a hint in the gutter" str lsp_diagnostic_line_hint_sign '-'
 declare-option -docstring "Character to signal an info in the gutter" str lsp_diagnostic_line_info_sign 'i'
 declare-option -docstring "Character to signal a warning in the gutter" str lsp_diagnostic_line_warning_sign '!'
-declare-option -docstring "Character to signal a code lens in the gutter" str lsp_code_lens_sign '?'
+declare-option -docstring "Character to signal a code lens in the gutter" str lsp_code_lens_sign 'λ'
 # Visual settings for inlay diagnostics
 declare-option -docstring "Character to represent a single inlay diagnostic of many on a line. May not contain '|'" str lsp_inlay_diagnostic_sign '■'
 declare-option -docstring "Character(s) to separate the actual line contents from the inlay diagnostics. May not contain '|'" str lsp_inlay_diagnostic_gap '     '
